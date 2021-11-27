@@ -173,7 +173,7 @@ ACTOR PB_MG42 : PB_Weapon
 		Goto Respect
 		TNT1 A 0
 		TNT1 A 0 {
-		A_TakeInventory("MG42HeatLevel", 20);
+		A_TakeInventory("MG42HeatLevel", 2);
 		A_PlaySound("CBOXPKUP");
 		}
 		MGSE FE 1 
@@ -291,8 +291,7 @@ ACTOR PB_MG42 : PB_Weapon
 		A_ClearOverlays(3, 6);
 		A_Overlay(-3, "MuzzleFlash");
 		A_Overlay(5, "BeltFlash");
-		A_GiveInventory("MG42HeatLevel", 2);
-		A_TakeInventory("NewClip", 2);
+		A_TakeInventory("NewClip", 1);
 		A_PlaySound("MG42FIR");
 		A_FireBullets(5, 6, 1, 28, "MachineGunBulletPuff", 1);
 		A_Firecustommissile("MG42CaseSpawn",0,0,24,-20, 0, -50);
@@ -374,16 +373,6 @@ ACTOR PB_MG42 : PB_Weapon
 				if(!PressingAltfire() || JustReleased(BT_ALTATTACK) ) {
 					return state("Unzoom");
 				}
-				if (PressingFire() && PressingAltfire() && CountInv("NewClip") > 1 && CountInv("MG42HeatLevel") < 80)
-							{
-							Return State("Fire2");
-							}
-					else if (PressingFire() && PressingAltfire() && CountInv("NewClip") > 1 && CountInv("MG42HeatLevel") == 80) {
-							Return State ("UnzoomBarrelChange");
-						}
-					else if (PressingFire() && PressingAltfire() && CountInv("NewClip") <= 1) {
-							Return State ("Unzoom");
-						}
 				return A_DoPBWeaponAction(WRF_NOSECONDARY);
 			}
 		else {
@@ -420,7 +409,7 @@ ACTOR PB_MG42 : PB_Weapon
 			return state ("UnzoomBarrelChange");
 			}
 		else {
-			return state ("Unzoom");
+			return state ("");
 			}	
 		}	
 		Goto Ready2
@@ -429,101 +418,17 @@ ACTOR PB_MG42 : PB_Weapon
 		A_ClearOverlays(3, 4);
 		A_Overlay(-3, "MuzzleFlashZoom");
 		A_Overlay(5, "BeltFlashZoomFire");
-		A_GiveInventory("MG42HeatLevel", 2);
-		A_TakeInventory("NewClip", 2);
+		A_TakeInventory("NewClip", 1);
 		A_PlaySound("MG42FIR");
-		A_FireBullets(5, 5, 1, 28, "MachineGunBulletPuff", 1);
+		A_FireBullets(1, 1, 1, 28, "MachineGunBulletPuff", 1);
 		A_Firecustommissile("MG42CaseSpawn",0,0,24,random(-18, 18));
 		A_FireCustomMissile("ShakeYourAss", 0, 0, 0, 0);
 		A_FireCustomMissile("MinigunTracer", random(-3,3), 0, -1, random(-3,3));
 		A_FireCustomMissile("GunFireSmoke", 0, 0, 0, 0, 0, 0);
 		PB_WeaponRecoil(-2.0,-0.5);
 		}
-		MGZF AB 1
-		TNT1 A 0 {
-		if (CountInv("NewClip") > 1 && CountInv("MG42HeatLevel") != 80) {
-			return state ("ActualFire2_2");
-			}
-		else if (CountInv("MG42HeatLevel") == 80) {
-			return state ("UnzoomBarrelChange");
-			}
-		else {
-			A_Overlay(3, "Cooling");
-			return state ("Ready2");
-			}	
-		}
-	ActualFire2_2:
-		TNT1 A 0 {
-		A_Overlay(-3, "MuzzleFlashZoom");
-		A_Overlay(5, "BeltFlashZoomFire");
-		A_GiveInventory("MG42HeatLevel", 2);
-		A_TakeInventory("NewClip", 2);
-		A_PlaySound("MG42FIR");
-		A_FireBullets(5, 5, 1, 26, "MachineGunBulletPuff", 1);
-		A_Firecustommissile("MiniBeltPieceSpawn",0,0,12,18);
-		A_Firecustommissile("MG42CaseSpawn",0,0,12,random(-18, 18));
-		A_FireCustomMissile("ShakeYourAss", 0, 0, 0, 0);
-		A_FireCustomMissile("MinigunTracer", random(-3,3), 0, -1, random(-3,3));
-		A_FireCustomMissile("GunFireSmoke", 0, 0, 0, 0, 0, 0);
-		PB_WeaponRecoil(-2.0,-0.5);
-		}
-		MGZF AB 1
-		TNT1 A 0 {
-		if (CountInv("NewClip") > 1 && CountInv("MG42HeatLevel") != 80) {
-			return state ("ActualFire2_3");
-			}
-		else if (CountInv("MG42HeatLevel") == 80) {
-			return state ("UnzoomBarrelChange");
-			}
-		else {
-			A_Overlay(3, "Cooling");
-			return state ("Ready2");
-			}	
-		}
-	ActualFire2_3:
-		TNT1 A 0 {
-		A_Overlay(-3, "MuzzleFlashZoom");
-		A_Overlay(5, "BeltFlashZoomFire");
-		A_GiveInventory("MG42HeatLevel", 2);
-		A_TakeInventory("NewClip", 2);
-		A_PlaySound("MG42FIR");
-		A_FireBullets(5, 5, 1, 26, "MachineGunBulletPuff", 1);
-		A_Firecustommissile("MiniBeltPieceSpawn",0,0,12,18);
-		A_Firecustommissile("MG42CaseSpawn",0,0,12,random(-18, 18));
-		A_FireCustomMissile("ShakeYourAss", 0, 0, 0, 0);
-		A_FireCustomMissile("MinigunTracer", random(-3,3), 0, -1, random(-3,3));
-		A_FireCustomMissile("GunFireSmoke", 0, 0, 0, 0, 0, 0);
-		PB_WeaponRecoil(-2.0,-0.5);
-		}
-		MGZF AB 1
-		TNT1 A 0 {
-		if (CountInv("NewClip") > 1 && CountInv("MG42HeatLevel") != 80) {
-			return state ("ActualFire2_4");
-			}
-		else if (CountInv("MG42HeatLevel") == 80) {
-			return state ("UnzoomBarrelChange");
-			}
-		else {
-			A_Overlay(3, "Cooling");
-			return state ("Ready2");
-			}	
-		}
-	ActualFire2_4:
-		TNT1 A 0 {
-		A_Overlay(-3, "MuzzleFlashZoom");
-		A_Overlay(5, "BeltFlashZoomFire");
-		A_GiveInventory("MG42HeatLevel", 2);
-		A_TakeInventory("NewClip", 2);
-		A_PlaySound("MG42FIR");
-		A_FireBullets(5, 5, 1, 26, "MachineGunBulletPuff", 1);
-		A_Firecustommissile("MiniBeltPieceSpawn",0,0,12,18);
-		A_Firecustommissile("MG42CaseSpawn",0,0,12,random(-18, 18));
-		A_FireCustomMissile("ShakeYourAss", 0, 0, 0, 0);
-		A_FireCustomMissile("MinigunTracer", random(-3,3), 0, -1, random(-3,3));
-		A_FireCustomMissile("GunFireSmoke", 0, 0, 0, 0, 0, 0);
-		PB_WeaponRecoil(-2.0,-0.5);
-		}
 		MGZF ABC 1
+		TNT1 A 0 A_Refire
 		MG3Z A 0 A_JumpIfInventory("NewClip", 10, 3)
 		MG2Z A 0 A_JumpIfInventory("NewClip", 8, 2)
 		MG1Z A 0
